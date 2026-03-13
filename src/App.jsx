@@ -4,7 +4,7 @@ import './App.css'
 
 const translations = {
   en: {
-    title: "X Play TV",
+    title: "X Play macOS",
     subtitle: "Premium Gaming Edition",
     remotePlay: "Remote Play",
     remotePlayDesc: "Play from your console",
@@ -25,7 +25,7 @@ const translations = {
     close: "Close"
   },
   ru: {
-    title: "X Play TV",
+    title: "X Play macOS",
     subtitle: "Главный игровой портал",
     remotePlay: "Удалённая игра",
     remotePlayDesc: "Играйте со своей консоли (DualSense + Кл/Мышь)",
@@ -44,35 +44,35 @@ const translations = {
     close: "Закрыть"
   },
   fr: {
-    title: "X Play TV", subtitle: "Édition Premium TV", remotePlay: "Jeu à distance", remotePlayDesc: "Jouez depuis votre console",
+    title: "X Play macOS", subtitle: "Édition Premium", remotePlay: "Jeu à distance", remotePlayDesc: "Jouez depuis votre console",
     cloudGaming: "Cloud Gaming", cloudGamingDesc: "Jouez via Xbox Game Pass", gamepad: "Manette", connected: "Connecté",
     notFound: "Non trouvé", license: "La licence est gratuite, mais les droits peuvent être achetés",
     optimization: "Optimisation du système", detected: "Détecté", perfMode: "Mode Performance", smooth: "Ultra Fluide", balanced: "Équilibré", eco: "Max Perf (Sans Lag)",
     supportDev: "Soutenir l'auteur ($1)", donateDesc: "Scanner pour soutenir", close: "Fermer"
   },
   zh: {
-    title: "X Play TV", subtitle: "旗舰电视版", remotePlay: "远程游玩", remotePlayDesc: "从您的主机游玩",
+    title: "X Play macOS", subtitle: "旗舰版", remotePlay: "远程游玩", remotePlayDesc: "从您的主机游玩",
     cloudGaming: "云游戏", cloudGamingDesc: "从 Xbox Game Pass 游玩", gamepad: "手柄", connected: "已连接",
     notFound: "未找到", license: "许可证免费，但可以购买权利",
     optimization: "系统优化", detected: "已检测到", perfMode: "性能模式", smooth: "极速流畅", balanced: "均衡", eco: "最高性能 (无延迟)",
     supportDev: "支持开发者 ($1)", donateDesc: "扫描以支持", close: "关闭"
   },
   de: {
-    title: "X Play TV", subtitle: "Premium TV Edition", remotePlay: "Remote Play", remotePlayDesc: "Spielen von deiner Konsole",
+    title: "X Play macOS", subtitle: "Premium Edition", remotePlay: "Remote Play", remotePlayDesc: "Spielen von deiner Konsole",
     cloudGaming: "Cloud Gaming", cloudGamingDesc: "Spielen über Xbox Game Pass", gamepad: "Gamepad", connected: "Verbunden",
     notFound: "Nicht gefunden", license: "Die Lizenz ist kostenlos, aber Rechte können erworben werden",
     optimization: "Systemoptimierung", detected: "Erkannt", perfMode: "Leistungsmodus", smooth: "Ultra-Glatt", balanced: "Ausgeglichen", eco: "Max Performance",
     supportDev: "Entwickler unterstützen ($1)", donateDesc: "Scannen zum Unterstützen", close: "Schließen"
   },
   it: {
-    title: "X Play TV", subtitle: "Edizione TV Premium", remotePlay: "Riproduzione remota", remotePlayDesc: "Gioca dalla tua console",
+    title: "X Play macOS", subtitle: "Edizione Premium", remotePlay: "Riproduzione remota", remotePlayDesc: "Gioca dalla tua console",
     cloudGaming: "Cloud Gaming", cloudGamingDesc: "Gioca da Xbox Game Pass", gamepad: "Controller", connected: "Connesso",
     notFound: "Non trovato", license: "La licenza è gratuita, mа i diritti possono essere acquistati",
     optimization: "Ottimizzazione del sistema", detected: "Rilevato", perfMode: "Modalità Performance", smooth: "Ultra Fluido", balanced: "Bilanciato", eco: "Max Performance",
     supportDev: "Supporta l'autore ($1)", donateDesc: "Scansiona per supportare", close: "Chiudi"
   },
   es: {
-    title: "X Play TV", subtitle: "Edición TV Premium", remotePlay: "Juego remoto", remotePlayDesc: "Juega desde tu consola",
+    title: "X Play macOS", subtitle: "Edición Premium", remotePlay: "Juego remoto", remotePlayDesc: "Juega desde tu consola",
     cloudGaming: "Juego en la nube", cloudGamingDesc: "Juega desde Xbox Game Pass", gamepad: "Mando", connected: "Conectado",
     notFound: "No encontrado", license: "La лицензия бесплатна, но можно приобрести права",
     optimization: "Optimización del sistema", detected: "Detectado", perfMode: "Modo Rendimiento", smooth: "Ultra Fluido", balanced: "Equilibrado", eco: "Max Rendimiento",

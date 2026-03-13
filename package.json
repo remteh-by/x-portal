@@ -3,12 +3,12 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "description": "X Play TV - Premium UI Media Portal",
+  "description": "X Play macOS - Premium UI Media Portal",
   "author": "Mighty",
   "main": "electron/main.js",
   "build": {
     "appId": "com.mighty.xportal",
-    "productName": "X Play TV",
+    "productName": "X Play macOS",
     "directories": {
       "output": "dist"
     },
