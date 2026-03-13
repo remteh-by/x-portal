@@ -1,10 +1,11 @@
-# 🎮 X Play TV (Gamer Edition)
+# 🎮 X Play macOS (Gamer Edition)
 
-**Ultimate Remote Play Client for macOS & Android TV**
+**Ultimate Xbox Remote Play Client for macOS (M4/M3/M2/M1)**
+
+Professional-grade remote gaming client with native **Keyboard and Mouse support** for Xbox Remote Play and Cloud Gaming.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Platform: macOS](https://img.shields.io/badge/Platform-macOS%20M4-blue.svg)](https://apple.com)
-[![Platform: Android TV](https://img.shields.io/badge/Platform-Android%20TV-green.svg)](https://android.com)
 
 ---
 
@@ -19,37 +20,38 @@
 
 ### 🚀 Overview
 
-**X Play TV** is a professional-grade Remote Play client designed specifically for high-performance devices like MacBook M4. It transforms the standard browser experience into a native gaming powerhouse with advanced input emulation.
+**X Play macOS** is a high-performance Xbox Remote Play client designed specifically for Apple Silicon (M4, M3, M2, M1). It bypasses standard browser limitations to provide a native-like gaming experience with advanced input emulation, making it the perfect tool for competitive gaming on Mac.
 
-### ✨ Key Features
+### ✨ Key Features (SEO Optimized)
 
-- **Gamer-Grade controls**: Full Keyboard & Mouse emulation (Windows-style).
-- **Pointer Lock**: Precise 360° camera movement.
-- **Modern UI**: Stunning Glassmorphism interface with Xbox-inspired aesthetics.
-- **Universal**: Optimized for both macOS (ARM64) and Android TV.
-- **Low Latency**: Performance profiles for lags-free gaming.
+- **Native Keyboard & Mouse Emulation**: Play Xbox games with PC-style controls (WASD + Mouse).
+- **Pointer Lock Technology**: Precise 360° first-person camera control without cursor drift.
+- **Xbox Cloud Gaming Ready**: Optimized for Xbox Game Pass Ultimate and Remote Play.
+- **Apple Silicon Optimized**: Native performance for MacBook M4 and older M-series chips.
+- **Glassmorphism UI**: Premium Xbox-inspired design.
+- **Zero Latency Input**: Custom performance profiles for competitive shooters (Halo, Call of Duty, Destiny).
 
-### ⌨️ Pro Control Layout (PC Style)
+### ⌨️ PC Gamer Control Layout
 
 | Action | Key / Input |
 | :--- | :--- |
-| **Move (Stick L)** | `W` `A` `S` `D` |
-| **Look (Stick R)** | `Mouse Movement` |
-| **Fire (RT/R2)** | `Left Mouse Button` |
-| **Aim (LT/L2)** | `Right Mouse Button` |
+| **Move (Left Stick)** | `W` `A` `S` `D` |
+| **Look (Right Stick)** | `Mouse Movement` |
+| **Fire / Shoot (RT)** | `Left Mouse Button` |
+| **Aim / ADS (LT)** | `Right Mouse Button` |
 | **Jump (A)** | `Space` |
 | **Interact (X)** | `E` |
-| **Switch Weapon (Y)** | `R` |
-| **Back/Melee (B)** | `Q` |
+| **Reload / Switch (Y)** | `R` |
+| **Melee / Back (B)** | `Q` |
 | **Sprint (L3)** | `Shift` |
-| **Crouch (R3)** | `Ctrl` / `C` |
+| **Crouch (R3)** | `C` / `Ctrl` |
 
-### 🛠️ Installation
+### 🛠️ Quick Start
 
-1. Download the latest `.dmg` from the Releases section.
-2. Drag **X Play TV** to your Applications folder.
-3. Launch and click **Remote Play**.
-4. **Important**: Click inside the game window once to activate mouse capture. Press `ESC` to release.
+1. Download the latest `X_Play_macOS.dmg` from the **Releases** section.
+2. Drag to your Applications folder.
+3. Launch, select **Remote Play**, and sign in.
+4. **Pro Tip**: Click anywhere in the game to lock the mouse. Press `ESC` to release.
 
 ---
 
@@ -57,50 +59,48 @@
 
 ### 🚀 Обзор
 
-**X Play TV** — это профессиональный клиент для удаленной игры (Remote Play), созданный специально для современных устройств, таких как MacBook M4. Он превращает стандартный браузерный опыт в полноценную игровую станцию с продвинутой эмуляцией управления.
+**X Play macOS** — это специализированный клиент для удаленной игры в Xbox (Remote Play), оптимизированный для компьютеров Apple на базе чипов M1, M2, M3 и M4. Забудьте об ограничениях браузера: получите полноценный игровой опыт с эмуляцией клавиатуры и мыши прямо на вашем Mac.
 
-### ✨ Основные возможности
+### ✨ Ключевые особенности
 
-- **Игровой движок**: Полноценная эмуляция клавиатуры и мыши (в стиле Windows-игр).
-- **Pointer Lock**: Прецизионное управление камерой на 360°.
-- **Premium UI**: Потрясающий интерфейс "Glassmorphism" в стиле Xbox.
-- **Универсальность**: Оптимизировано для macOS (ARM64) и Android TV.
-- **Без лагов**: Специальные профили производительности для минимальной задержки.
+- **Управление Клавиатурой и Мышью**: Играйте в игры Xbox как на компьютере (WASD + Мышь).
+- **Захват курсора (Pointer Lock)**: Плавное управление камерой 360° без «вылета» курсора.
+- **Поддержка Cloud Gaming**: Идеально подходит для Xbox Game Pass Ultimate.
+- **Оптимизация под M4**: Максимальная плавность на новейших MacBook M4.
+- **Премиальный дизайн**: Интерфейс в стиле Glassmorphism.
 
-### ⌨️ Раскладка управления (PC Gamer)
+### ⌨️ Раскладка управления (ПК-стиль)
 
-| Действие | Клавиша / Ввод |
+| Действие | Клавиша |
 | :--- | :--- |
-| **Движение (Лев. стик)** | `W` `A` `S` `D` |
-| **Обзор (Прав. стик)** | `Движение мыши` |
-| **Огонь (RT/R2)** | `Левая кнопка мыши` |
-| **Прицел (LT/L2)** | `Правая кнопка мыши` |
-| **Прыжок (A)** | `Пробел` |
-| **Взаимодействие (X)** | `E` |
-| **Смена оружия (Y)** | `R` |
-| **Назад / Удар (B)** | `Q` |
-| **Спринт (L3)** | `Shift` |
-| **Присесть (R3)** | `Ctrl` / `C` |
+| **Движение** | `W` `A` `S` `D` |
+| **Обзор / Камера** | `Движение мыши` |
+| **Огонь / Выстрел** | `Левая кнопка мыши` |
+| **Прицел** | `Правая кнопка мыши` |
+| **Прыжок** | `Пробел` |
+| **Действие** | `E` |
+| **Перезарядка** | `R` |
+| **Удар рукой** | `Q` |
+| **Бег** | `Shift` |
+| **Присесть** | `C` / `Ctrl` |
 
-### 🛠️ Установка
+### 🛠️ Быстрый старт
 
-1. Скачайте последний `.dmg` файл из раздела Releases.
-2. Перетащите **X Play TV** в папку Applications.
-3. Запустите приложение и выберите **Удалённая игра**.
-4. **Важно**: Кликните один раз внутри окна игры, чтобы активировать захват мыши. Нажмите `ESC` для выхода.
+1. Скачайте `X_Play_macOS.dmg` из раздела **Releases**.
+2. Перетащите в папку Программы.
+3. Запустите, выберите **Удалённая игра** и войдите в аккаунт.
+4. **Совет**: Кликните внутри игры для захвата мыши. Нажмите `ESC`, чтобы освободить курсор.
 
 ---
 
-## ❤️ Support the Project / Поддержать проект
+## ❤️ Поддержать проект / Support
 
-Support developer to get more updates!
-Поддержите автора для выпуска новых обновлений!
-
-[💸 Support via PayPal (Any Amount)](https://www.paypal.com/donate/?business=simplydestroy@gmail.com&no_recurring=0&currency_code=USD)
+[💸 Поддержать через PayPal](https://www.paypal.com/donate/?business=simplydestroy@gmail.com&no_recurring=0&currency_code=USD)
 
 ---
 
 ## 📜 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-# x-portal
+MIT License. Developed by Mighty for the gaming community.
+
+# xbox-remote-play-mac #keyboard-mouse-xbox #xplay-mac-os
