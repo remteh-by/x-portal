@@ -121,7 +121,7 @@ Additionally, your support will help me develop **Pro Features**:
 - 🖱️ **Настройка чувствительности и ускорения мыши**.
 - 🎮 **Встроенный тестер геймпада** для калибровки ваших контроллеров.
 
-[**☕ Support via PayPal / Поддержать через PayPal**](https://www.paypal.com/donate/?business=simplydestroy@gmail.com&no_recurring=0&currency_code=USD)
+[**☕ Support via PayPal.Me / Поддержать через PayPal.Me**](https://paypal.me/remtehby)
 
 ---
 
