@@ -53,6 +53,12 @@ Professional-grade remote gaming client with native **Keyboard and Mouse support
 3. Launch, select **Remote Play**, and sign in.
 4. **Pro Tip**: Click anywhere in the game to lock the mouse. Press `ESC` to release.
 
+### ⚠️ Troubleshooting: "App is Damaged"
+If you see a message saying the app is damaged, it's just macOS Gatekeeper blocking an unsigned app. Run this command in your Terminal:
+```bash
+sudo xattr -rd com.apple.quarantine /Applications/X\ Play\ macOS.app
+```
+
 ---
 
 ## 🇷🇺 Русский
@@ -90,6 +96,12 @@ Professional-grade remote gaming client with native **Keyboard and Mouse support
 2. Перетащите в папку Программы.
 3. Запустите, выберите **Удалённая игра** и войдите в аккаунт.
 4. **Совет**: Кликните внутри игры для захвата мыши. Нажмите `ESC`, чтобы освободить курсор.
+
+### ⚠️ Решение проблемы: "Программа повреждена"
+Если macOS пишет, что программа повреждена — это сработала защита (Gatekeeper) для неподписанных приложений. Решается одной командой в Терминале:
+```bash
+sudo xattr -rd com.apple.quarantine /Applications/X\ Play\ macOS.app
+```
 
 ---
 

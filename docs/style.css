@@ -131,6 +131,24 @@ h1 span {
     max-width: 500px;
 }
 
+.troubleshooting {
+    margin-top: 2rem;
+    font-size: 0.85rem !important;
+    color: #ffcc00 !important;
+    background: rgba(255, 204, 0, 0.1);
+    padding: 0.8rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 204, 0, 0.2);
+    display: inline-block;
+}
+
+.troubleshooting code {
+    background: rgba(0,0,0,0.5);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: monospace;
+}
+
 .hero-btns {
     display: flex;
     gap: 1rem;
