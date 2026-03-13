@@ -1,0 +1,37 @@
+# System / SDK / Cache
+.android/
+.gradle_home/
+.npm_cache/
+.avd/
+local-sdk/
+.gradle/
+*.log
+tmp/
+.temp/
+node_modules/
+.npm/
+
+# Testing
+coverage/
+
+# Production / Artifacts
+dist/
+macos_dist/
+build/
+
+# Android (Excluded per user request)
+android/
+capacitor.config.json
+system-images/
+
+# Misc
+.DS_Store
+*.pem
+*.dmg
+*.zip
+*.blockmap
+
+# Electron
+builder-debug.yml
+builder-effective-config.yaml
+dist-electron/
