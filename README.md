@@ -109,7 +109,17 @@ sudo xattr -rd com.apple.quarantine /Applications/X\ Play.app
 
 Developing **X Play macOS** takes a lot of time and effort. My goal is to reach **$99/year** to pay for the **Apple Developer Membership**. This will allow me to officially sign the app so it launches without any "damaged" warnings!
 
-Разработка **X Play macOS** требует много времени. Моя цель — собрать **$99/год** на оплату **Apple Developer Membership**. Это позволит мне официально подписать приложение, чтобы оно запускалось без ошибок и предупреждений о «повреждении»!
+Additionally, your support will help me develop **Pro Features**:
+- ⌨️ **Advanced Keyboard Remapping** (custom binds for every game).
+- 🖱️ **Mouse Sensitivity & Acceleration** settings.
+- 🎮 **A dedicated Gamepad Tester** to calibrate your controllers.
+
+Разработка **X Play macOS** требует много времени. Моя цель — собрать **$99/год** на оплату **Apple Developer Membership**, чтобы приложение запускалось без ошибок и предупреждений.
+
+Также ваша поддержка поможет мне добавить **Pro-функции**:
+- ⌨️ **Расширенная перенастройка клавиш** (свои бинды для каждой игры).
+- 🖱️ **Настройка чувствительности и ускорения мыши**.
+- 🎮 **Встроенный тестер геймпада** для калибровки ваших контроллеров.
 
 [**☕ Support via PayPal / Поддержать через PayPal**](https://www.paypal.com/donate/?business=simplydestroy@gmail.com&no_recurring=0&currency_code=USD)
 
