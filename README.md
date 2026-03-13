@@ -93,9 +93,13 @@ Professional-grade remote gaming client with native **Keyboard and Mouse support
 
 ---
 
-## ❤️ Поддержать проект / Support
+## ❤️ Support the Project / Поддержать проект
 
-[💸 Поддержать через PayPal](https://www.paypal.com/donate/?business=simplydestroy@gmail.com&no_recurring=0&currency_code=USD)
+Developing **X Play macOS** takes a lot of time and effort. If this tool helps you enjoy Xbox games on your Mac, please consider supporting the project. Your donations will directly fund the development of the next version!
+
+Разработка **X Play macOS** требует много времени и ресурсов. Если это приложение помогло вам играть в Xbox на вашем Mac, пожалуйста, поддержите проект. Ваши пожертвования напрямую ускорят выход новой версии!
+
+[**☕ Support via PayPal / Поддержать через PayPal**](https://www.paypal.com/donate/?business=simplydestroy@gmail.com&no_recurring=0&currency_code=USD)
 
 ---
 
