@@ -56,7 +56,7 @@ Professional-grade remote gaming client with native **Keyboard and Mouse support
 ### ⚠️ Troubleshooting: "App is Damaged"
 If you see a message saying the app is damaged, it's just macOS Gatekeeper blocking an unsigned app. Run this command in your Terminal:
 ```bash
-sudo xattr -rd com.apple.quarantine /Applications/X\ Play\ macOS.app
+sudo xattr -rd com.apple.quarantine /Applications/X\ Play.app
 ```
 
 ---
@@ -100,16 +100,16 @@ sudo xattr -rd com.apple.quarantine /Applications/X\ Play\ macOS.app
 ### ⚠️ Решение проблемы: "Программа повреждена"
 Если macOS пишет, что программа повреждена — это сработала защита (Gatekeeper) для неподписанных приложений. Решается одной командой в Терминале:
 ```bash
-sudo xattr -rd com.apple.quarantine /Applications/X\ Play\ macOS.app
+sudo xattr -rd com.apple.quarantine /Applications/X\ Play.app
 ```
 
 ---
 
 ## ❤️ Support the Project / Поддержать проект
 
-Developing **X Play macOS** takes a lot of time and effort. If this tool helps you enjoy Xbox games on your Mac, please consider supporting the project. Your donations will directly fund the development of the next version!
+Developing **X Play macOS** takes a lot of time and effort. My goal is to reach **$99/year** to pay for the **Apple Developer Membership**. This will allow me to officially sign the app so it launches without any "damaged" warnings!
 
-Разработка **X Play macOS** требует много времени и ресурсов. Если это приложение помогло вам играть в Xbox на вашем Mac, пожалуйста, поддержите проект. Ваши пожертвования напрямую ускорят выход новой версии!
+Разработка **X Play macOS** требует много времени. Моя цель — собрать **$99/год** на оплату **Apple Developer Membership**. Это позволит мне официально подписать приложение, чтобы оно запускалось без ошибок и предупреждений о «повреждении»!
 
 [**☕ Support via PayPal / Поддержать через PayPal**](https://www.paypal.com/donate/?business=simplydestroy@gmail.com&no_recurring=0&currency_code=USD)
 
