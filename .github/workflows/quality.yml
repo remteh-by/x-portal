@@ -34,7 +34,8 @@ jobs:
           cache: npm
       - run: npm ci --no-audit --no-fund
       - run: npm run build && npm run test:native
-      - run: npm run electron:build
+      # Quality CI creates an artifact; releases are published separately.
+      - run: npm run electron:build -- --publish never
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
           # Ad-hoc identity only; no certificate or signing secrets are loaded.
