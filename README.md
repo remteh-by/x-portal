@@ -1,132 +1,46 @@
-# 🎮 X Play macOS (Gamer Edition)
+# X Play macOS 1.1.0 candidate
 
-**Ultimate Xbox Remote Play Client for macOS (M4/M3/M2/M1)**
+Independent Xbox Remote Play launcher for Apple Silicon macOS. The current source is a **preview candidate**. Public release 1.0.0 is older and does not contain the fixes described here. See [actual releases](https://github.com/remteh-by/x-portal/releases) and the [site](https://remteh-by.github.io/x-portal/).
 
-Professional-grade remote gaming client with native **Keyboard and Mouse support** for Xbox Remote Play and Cloud Gaming.
+## Controls / управление
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Platform: macOS](https://img.shields.io/badge/Platform-macOS%20M4-blue.svg)](https://apple.com)
+Open Controls settings to choose physical gamepad or keyboard/mouse mode. Save a named profile, change sensitivity/inversion and assign keys. JSON export/import is limited to the validated schema. Settings apply to the **next game window**; the app does not claim to alter an existing stream silently.
 
----
+В режиме клавиатуры/мыши нажмите отдельную кнопку захвата на странице игры. Escape освобождает курсор; он не назначается игровой кнопке. Физические геймпады сохраняются в Gamepad API. Потеря фокуса, скрытие окна, переход в текстовое поле и потеря pointer lock очищают виртуальный ввод. В режиме физического геймпада API не подменяется.
 
-## 🌍 Languages / Языки
+Default keys: WASD movement, mouse look, left/right mouse RT/LT, Space A, Q B, E X, R Y, F/G shoulders, Tab View, Enter Menu, Shift/Control stick clicks. Profile import rejects duplicate or unsupported keys. Microphone requests are disabled unless enabled explicitly in the profile.
 
-- [English](#-english)
-- [Русский](#-русский)
+## Security and limits
 
----
+Electron renderer sandbox and context isolation are enabled; Node integration is off. Local launcher IPC validates the sending frame. Game navigation is limited to explicit HTTPS Xbox/Microsoft sign-in hosts. Remote pages receive only the validated controls configuration through an isolated preload; they do not receive a general Electron bridge.
 
-## 🇺🇸 English
+Remote Play still depends on Xbox service/account/network requirements. The keyboard adapter uses browser Gamepad API behavior and needs verification in actual games. It does not guarantee all games, 4K, zero latency, Intel Mac support or compatibility with future sign-in routes. Android/Windows/Linux packages are not provided. Unused Capacitor dependencies were removed from the macOS distribution.
 
-### 🚀 Overview
+## Build and verify
 
-**X Play macOS** is a high-performance Xbox Remote Play client designed specifically for Apple Silicon (M4, M3, M2, M1). It bypasses standard browser limitations to provide a native-like gaming experience with advanced input emulation, making it the perfect tool for competitive gaming on Mac.
+Use Node.js 24 LTS (minimum 22.12):
 
-### ✨ Key Features (SEO Optimized)
-
-- **Native Keyboard & Mouse Emulation**: Play Xbox games with PC-style controls (WASD + Mouse).
-- **Pointer Lock Technology**: Precise 360° first-person camera control without cursor drift.
-- **Xbox Cloud Gaming Ready**: Optimized for Xbox Game Pass Ultimate and Remote Play.
-- **Apple Silicon Optimized**: Native performance for MacBook M4 and older M-series chips.
-- **Glassmorphism UI**: Premium Xbox-inspired design.
-- **Zero Latency Input**: Custom performance profiles for competitive shooters (Halo, Call of Duty, Destiny).
-
-### ⌨️ PC Gamer Control Layout
-
-| Action | Key / Input |
-| :--- | :--- |
-| **Move (Left Stick)** | `W` `A` `S` `D` |
-| **Look (Right Stick)** | `Mouse Movement` |
-| **Fire / Shoot (RT)** | `Left Mouse Button` |
-| **Aim / ADS (LT)** | `Right Mouse Button` |
-| **Jump (A)** | `Space` |
-| **Interact (X)** | `E` |
-| **Reload / Switch (Y)** | `R` |
-| **Melee / Back (B)** | `Q` |
-| **Sprint (L3)** | `Shift` |
-| **Crouch (R3)** | `C` / `Ctrl` |
-
-### 🛠️ Quick Start
-
-1. Download the latest `X_Play_macOS.dmg` from the **Releases** section.
-2. Drag to your Applications folder.
-3. Launch, select **Remote Play**, and sign in.
-4. **Pro Tip**: Click anywhere in the game to lock the mouse. Press `ESC` to release.
-
-### ⚠️ Troubleshooting: "App is Damaged"
-If you see a message saying the app is damaged, it's just macOS Gatekeeper blocking an unsigned app. Run this command in your Terminal:
-```bash
-sudo xattr -rd com.apple.quarantine /Applications/X\ Play.app
+```sh
+npm ci
+npm test
+npm run lint
+npm run build
+npm run electron:start
+npm run electron:build
 ```
 
----
+Electron is pinned to 45.1.0; electron-builder to 26.18.0. App code is in dist, isolated preloads in build-preloads, packaged files in release. Do not distribute development node_modules or signing credentials. CI builds macOS candidates and keeps validation separate from publication.
 
-## 🇷🇺 Русский
+For an isolated development check, XPLAY_TEST_PROFILE can point to a temporary directory. Packaged apps ignore that variable. Production preferences live in Electron's userData directory; do not export account cookies or the complete browser profile for support.
 
-### 🚀 Обзор
+## Installation and acceptance
 
-**X Play macOS** — это специализированный клиент для удаленной игры в Xbox (Remote Play), оптимизированный для компьютеров Apple на базе чипов M1, M2, M3 и M4. Забудьте об ограничениях браузера: получите полноценный игровой опыт с эмуляцией клавиатуры и мыши прямо на вашем Mac.
+A prepared DMG is a candidate until installation and gameplay are accepted. Preserve your working application and profile before testing an update. The candidate has no confirmed Apple Developer ID signature/notarization. A macOS warning is not automatically proof of a harmless issue: verify the source and SHA-256; do not run blanket quarantine-removal commands.
 
-### ✨ Ключевые особенности
+Automated checks cover navigation loop continuity, single confirmation per press, empty focus lists, profile validation, URL restrictions, physical-pad preservation and input reset. A native macOS launch and profile save were checked separately. Xbox sign-in, real controller input, gameplay, reconnect and a sustained session remain physical/service acceptance items.
 
-- **Управление Клавиатурой и Мышью**: Играйте в игры Xbox как на компьютере (WASD + Мышь).
-- **Захват курсора (Pointer Lock)**: Плавное управление камерой 360° без «вылета» курсора.
-- **Поддержка Cloud Gaming**: Идеально подходит для Xbox Game Pass Ultimate.
-- **Оптимизация под M4**: Максимальная плавность на новейших MacBook M4.
-- **Премиальный дизайн**: Интерфейс в стиле Glassmorphism.
+## License
 
-### ⌨️ Раскладка управления (ПК-стиль)
+[MIT](LICENSE), unchanged. Independent project, not affiliated with Microsoft. [Support development](https://paypal.me/remtehby). Donations do not imply a separate software license purchase.
 
-| Действие | Клавиша |
-| :--- | :--- |
-| **Движение** | `W` `A` `S` `D` |
-| **Обзор / Камера** | `Движение мыши` |
-| **Огонь / Выстрел** | `Левая кнопка мыши` |
-| **Прицел** | `Правая кнопка мыши` |
-| **Прыжок** | `Пробел` |
-| **Действие** | `E` |
-| **Перезарядка** | `R` |
-| **Удар рукой** | `Q` |
-| **Бег** | `Shift` |
-| **Присесть** | `C` / `Ctrl` |
-
-### 🛠️ Быстрый старт
-
-1. Скачайте `X_Play_macOS.dmg` из раздела **Releases**.
-2. Перетащите в папку Программы.
-3. Запустите, выберите **Удалённая игра** и войдите в аккаунт.
-4. **Совет**: Кликните внутри игры для захвата мыши. Нажмите `ESC`, чтобы освободить курсор.
-
-### ⚠️ Решение проблемы: "Программа повреждена"
-Если macOS пишет, что программа повреждена — это сработала защита (Gatekeeper) для неподписанных приложений. Решается одной командой в Терминале:
-```bash
-sudo xattr -rd com.apple.quarantine /Applications/X\ Play.app
-```
-
----
-
-## ❤️ Support the Project / Поддержать проект
-
-Developing **X Play macOS** takes a lot of time and effort. My goal is to reach **$99/year** to pay for the **Apple Developer Membership**. This will allow me to officially sign the app so it launches without any "damaged" warnings!
-
-Additionally, your support will help me develop **Pro Features**:
-- ⌨️ **Advanced Keyboard Remapping** (custom binds for every game).
-- 🖱️ **Mouse Sensitivity & Acceleration** settings.
-- 🎮 **A dedicated Gamepad Tester** to calibrate your controllers.
-
-Разработка **X Play macOS** требует много времени. Моя цель — собрать **$99/год** на оплату **Apple Developer Membership**, чтобы приложение запускалось без ошибок и предупреждений.
-
-Также ваша поддержка поможет мне добавить **Pro-функции**:
-- ⌨️ **Расширенная перенастройка клавиш** (свои бинды для каждой игры).
-- 🖱️ **Настройка чувствительности и ускорения мыши**.
-- 🎮 **Встроенный тестер геймпада** для калибровки ваших контроллеров.
-
-[**☕ Support via PayPal.Me / Поддержать через PayPal.Me**](https://paypal.me/remtehby)
-
----
-
-## 📜 License
-
-MIT License. Developed by Mighty for the gaming community.
-
-# xbox-remote-play-mac #keyboard-mouse-xbox #xplay-mac-os
+Additional QA: `npm run test:site` checks the static site at 360–3840px with JavaScript disabled; install Playwright Chromium first. `npm run test:native` launches the real Electron app using a temporary empty profile and an intercepted Xbox test page. It checks sandboxed preloads and SPA cleanup without signing into Microsoft or claiming gameplay.
