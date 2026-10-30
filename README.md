@@ -1,6 +1,8 @@
-# X Play macOS 1.1.0 candidate
+# X Play macOS 1.1.0 preview
 
-Independent Xbox Remote Play launcher for Apple Silicon macOS. The current source is a **preview candidate**. Public release 1.0.0 is older and does not contain the fixes described here. See [actual releases](https://github.com/remteh-by/x-portal/releases) and the [site](https://remteh-by.github.io/x-portal/).
+Independent Xbox Remote Play launcher for Apple Silicon macOS. The **1.1.0 preview is published** without physical-device acceptance. The ARM64 DMG is ad-hoc signed, not notarized. Public release 1.0.0 is retained as a historical version. See [actual releases](https://github.com/remteh-by/x-portal/releases) and the [site](https://remteh-by.github.io/x-portal/).
+
+[Download 1.1.0 ARM64 DMG](https://github.com/remteh-by/x-portal/releases/download/v1.1.0/X-Play-1.1.0-arm64.dmg) · [Checksums and source](https://github.com/remteh-by/x-portal/releases/tag/v1.1.0)
 
 ## Controls / управление
 
