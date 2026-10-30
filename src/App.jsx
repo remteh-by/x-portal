@@ -1,5 +1,7 @@
-import { useState, useEffect, useRef } from 'react'
-import { Browser } from '@capacitor/browser'
+import {startGamepadNavigation} from './gamepad-navigation.js'
+import {DEFAULT_PROFILE,validateProfile} from '../shared/profile.js'
+import ControlsPanel from './ControlsPanel.jsx'
+import { useState, useEffect } from 'react'
 import './App.css'
 
 const translations = {
@@ -95,106 +97,62 @@ function App() {
   const [lang, setLang] = useState('en')
   const [showLanguagePicker, setShowLanguagePicker] = useState(false)
   const [showDonation, setShowDonation] = useState(false)
-  const [deviceInfo, setDeviceInfo] = useState({ model: 'Android TV', perf: 'balanced' })
-  const focusedIndex = useRef(0)
+  const [deviceInfo, setDeviceInfo] = useState({ model: 'macOS', perf: 'balanced', version:'1.1.0' })
+  const [profile,setProfile]=useState(()=>validateProfile(DEFAULT_PROFILE))
+  const [showControls,setShowControls]=useState(false)
+  const [notice,setNotice]=useState('')
 
   const t = translations[lang]
   const donationUrl = "https://www.paypal.com/donate/?business=simplydestroy@gmail.com&no_recurring=0&currency_code=USD"
   const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(donationUrl)}`
 
   useEffect(() => {
-    // Global Hard Key Listener for Remote Control
-    const hardKeyHandler = (e) => {
-        const key = e.key || e.keyCode
-        
-        if (key === 'Enter' || e.keyCode === 13 || e.keyCode === 167) {
-            const active = document.activeElement
-            if (active && active.click) {
-                active.click()
-            }
-        }
-        
-        if (key === 'Escape' || e.keyCode === 27 || e.keyCode === 4 || e.keyCode === 10009) {
-            setShowDonation(false)
-            setShowLanguagePicker(false)
-        }
+    let alive=true
+    const stop=startGamepadNavigation(window,document,setGamepadConnected,()=>{
+      setShowDonation(false);setShowLanguagePicker(false);setShowControls(false)
+    })
+    const escape=event=>{if(event.key==='Escape') {
+      setShowDonation(false);setShowLanguagePicker(false);setShowControls(false)
+    }}
+    window.addEventListener('keydown',escape)
+    if(window.xplay) {
+      window.xplay.profile().then(value=>{if(alive)setProfile(validateProfile(value))}).catch(()=>{if(alive)setNotice('Controls could not be loaded')})
+      window.xplay.info().then(info=>{if(alive) {
+        setDeviceInfo({model:info.platform+' · '+info.arch,perf:'balanced',version:info.version})
+        if(info.profileWarning)setNotice(info.profileWarning)
+      }}).catch(()=>{})
     }
-    
-    window.addEventListener('keydown', hardKeyHandler)
-
-    // Initial device detection
-    const ua = navigator.userAgent
-    let model = "MacBook M4 (Pro Mode)"
-    let perf = "smooth"
-
-    setDeviceInfo({ model, perf })
-
-    const handleConnected = () => setGamepadConnected(true)
-    const handleDisconnected = () => setGamepadConnected(false)
-    window.addEventListener("gamepadconnected", handleConnected)
-    window.addEventListener("gamepaddisconnected", handleDisconnected)
-
-    // GAMEPAD NAVIGATION ENGINE
-    let lastButtonPress = 0
-    const gamepadLoop = () => {
-      const gpas = navigator.getGamepads()
-      const gp = gpas.find(g => g !== null && g.id.includes("Xbox")) // Prefer Xbox/Emulated
-      
-      if (gp) {
-        setGamepadConnected(true)
-        const now = Date.now()
-        if (now - lastButtonPress < 250) return
-
-        const axes = gp.axes
-        const buttons = gp.buttons
-
-        let delta = 0
-        if (buttons[12].pressed || axes[1] < -0.5) delta = -1 
-        if (buttons[13].pressed || axes[1] > 0.5) delta = 1   
-        if (buttons[14].pressed || axes[0] < -0.5) delta = -1 
-        if (buttons[15].pressed || axes[0] > 0.5) delta = 1  
-
-        if (delta !== 0) {
-            const focusables = Array.from(document.querySelectorAll('[tabindex]'))
-            const currentFocused = document.activeElement
-            const currentIndex = focusables.indexOf(currentFocused)
-            
-            focusedIndex.current = currentIndex === -1 ? 0 : (currentIndex + delta + focusables.length) % focusables.length
-            focusables[focusedIndex.current].focus()
-            lastButtonPress = now
-        }
-
-        if (buttons[0].pressed) {
-            document.activeElement.click()
-            lastButtonPress = now
-        }
-
-        if (buttons[1].pressed) {
-            setShowDonation(false)
-            setShowLanguagePicker(false)
-            lastButtonPress = now
-        }
-      }
-      requestAnimationFrame(gamepadLoop)
-    }
-    
-    requestAnimationFrame(gamepadLoop)
-
-    setTimeout(() => {
-        const first = document.querySelector('.portal-card')
-        if (first) first.focus()
-    }, 500)
-
-    return () => {
-      window.removeEventListener('keydown', hardKeyHandler)
-      window.removeEventListener("gamepadconnected", handleConnected)
-      window.removeEventListener("gamepaddisconnected", handleDisconnected)
-    }
+    return ()=>{alive=false;stop();window.removeEventListener('keydown',escape)}
   }, [])
 
-  const launch = (url) => {
-    // In Electron, we prefer window.open to trigger the preload script via main.js handler
-    window.open(url, '_blank', 'width=1280,height=720')
+  useEffect(() => {
+    if (!showDonation && !showLanguagePicker && !showControls) return
+    const previous = document.activeElement
+    const dialog = document.querySelector('[role="dialog"]')
+    if (!dialog) return
+    const elements = () => [...dialog.querySelectorAll('button:not(:disabled),a[href],input:not(:disabled),select:not(:disabled)')].filter(el=>el.getClientRects().length)
+    elements()[0]?.focus()
+    const trap = event => {
+      if (event.key !== 'Tab') return
+      const items = elements()
+      const index = items.indexOf(document.activeElement)
+      if (!items.length) { event.preventDefault(); return }
+      if (event.shiftKey && index <= 0) { event.preventDefault(); items.at(-1).focus() }
+      else if (!event.shiftKey && (index === items.length - 1 || index < 0)) { event.preventDefault(); items[0].focus() }
+    }
+    document.addEventListener('keydown', trap)
+    return () => { document.removeEventListener('keydown',trap); previous?.focus?.() }
+  }, [showDonation,showLanguagePicker,showControls])
+
+  const launch = async () => {
+    try {
+      if(!window.xplay) {setNotice('Open the installed X Play app to start a game.');return}
+      await window.xplay.openGame('remote')
+    } catch {setNotice('The Xbox page could not be opened. Check your connection and try again.')}
+  }
+  const saveProfile = async value => {
+    if(!window.xplay) throw new Error('Open the installed X Play app to save controls')
+    await window.xplay.saveProfile(value);setProfile(value)
   }
 
   const toggleLang = () => {
@@ -216,68 +174,66 @@ function App() {
             <div className="xbox-sphere"></div>
             <h1 className="main-title">{t.title}</h1>
         </div>
-        <p className="subtitle">{t.subtitle} / {deviceInfo.model}</p>
+        <p className="subtitle">{deviceInfo.model} · {deviceInfo.version}</p>
       </header>
 
       <main className="button-container single-focus">
-        <div 
-          className="portal-card" 
+        <button type="button"
+          className="portal-card"
           tabIndex="0"
-          onClick={() => launch('https://www.xbox.com/play/remote')}
-          onKeyDown={(e) => (e.key === 'Enter' || e.keyCode === 13) && launch('https://www.xbox.com/play/remote')}
+          onClick={launch}
         >
           <div className="card-icon">🎮</div>
           <h2>{t.remotePlay}</h2>
           <p>{t.remotePlayDesc}</p>
           <div className="selection-indicator"></div>
-        </div>
+        </button>
       </main>
 
+      {notice && <p role="status">{notice}</p>}
+      <button className="controls-open" onClick={()=>setShowControls(true)}>{lang==='ru'?'Настроить управление':'Controls settings'}</button>
       <footer className="status-bar">
         <div className="status-item">
           <div className={`dot ${gamepadConnected ? 'connected' : ''}`}></div>
           <span className="status-text">{t.gamepad}: {gamepadConnected ? t.connected : t.notFound}</span>
         </div>
-        
+
         <div className="status-item optimization">
             <div className="dot connected"></div>
-            <span className="status-text">{t.perfMode}: {t[deviceInfo.perf]}</span>
+            <span className="status-text">{profile.mode === 'physical' ? (lang==='ru'?'Физический геймпад':'Physical gamepad') : (lang==='ru'?'Клавиатура / мышь':'Keyboard / mouse')}</span>
         </div>
 
-        <div 
-            className="lang-selector" 
-            tabIndex="2"
+        <button type="button"
+            className="lang-selector"
+            tabIndex="0"
             onClick={toggleLang}
-            onKeyDown={(e) => (e.key === 'Enter' || e.keyCode === 13) && toggleLang()}
         >
             🌐 {languages.find(l => l.code === lang).name}
-        </div>
+        </button>
 
-        <div 
-            className="support-btn" 
-            tabIndex="3" 
+        <button type="button"
+            className="support-btn"
+            tabIndex="0"
             onClick={() => setShowDonation(true)}
-            onKeyDown={(e) => (e.key === 'Enter' || e.keyCode === 13) && setShowDonation(true)}
         >
             ☕ {t.supportDev}
-        </div>
+        </button>
       </footer>
 
       {showLanguagePicker && (
           <div className="donation-modal" onClick={() => setShowLanguagePicker(false)}>
-              <div className="modal-content lang-modal" onClick={(e) => e.stopPropagation()}>
+              <div className="modal-content lang-modal" role="dialog" aria-modal="true" aria-label="Language" onClick={(e) => e.stopPropagation()}>
                   <h2>{t.optimization} - {languages.find(l => l.code === lang).name}</h2>
                   <div className="lang-grid">
-                      {languages.map((l, idx) => (
-                          <div 
-                              key={l.code} 
+                      {languages.map((l) => (
+                          <button type="button"
+                              key={l.code}
                               className={`lang-card ${lang === l.code ? 'active' : ''}`}
-                              tabIndex={10 + idx}
+                              tabIndex={0}
                               onClick={() => selectLang(l.code)}
-                              onKeyDown={(e) => (e.key === 'Enter' || e.keyCode === 13) && selectLang(l.code)}
                           >
                               {l.name}
-                          </div>
+                          </button>
                       ))}
                   </div>
                   <button className="close-btn" onClick={() => setShowLanguagePicker(false)}>{t.close}</button>
@@ -287,7 +243,7 @@ function App() {
 
       {showDonation && (
           <div className="donation-modal" onClick={() => setShowDonation(false)}>
-              <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+              <div className="modal-content" role="dialog" aria-modal="true" aria-label="Support" onClick={(e) => e.stopPropagation()}>
                   <h2>{t.supportDev}</h2>
                   <img src={qrCodeUrl} alt="Donation QR Code" className="qr-code" />
                   <p className="donate-url">paypal.me/simplydestroy</p>
@@ -297,8 +253,9 @@ function App() {
           </div>
       )}
 
+      {showControls && <ControlsPanel profile={profile} onSave={saveProfile} onClose={()=>setShowControls(false)} language={lang}/>}
       <div className="license-bar">
-          <p>{t.license}</p>
+          <p>MIT · X Play {deviceInfo.version}</p>
       </div>
     </div>
   )

@@ -35,3 +35,8 @@ system-images/
 builder-debug.yml
 builder-effective-config.yaml
 dist-electron/
+
+/release/
+/build-preloads/
+
+/output/

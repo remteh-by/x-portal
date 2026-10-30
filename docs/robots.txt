@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://remteh-by.github.io/x-portal/sitemap.xml
