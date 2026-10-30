@@ -1,5 +1,12 @@
 name: X Play quality
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
@@ -30,6 +37,9 @@ jobs:
       - run: npm run electron:build
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+          # Ad-hoc identity only; no certificate or signing secrets are loaded.
+          CSC_FOR_PULL_REQUEST: 'true'
+      - run: codesign --verify --deep --strict 'release/mac-arm64/X Play macOS.app'
       - uses: actions/upload-artifact@v4
         with:
           name: xplay-macos-arm64-candidate

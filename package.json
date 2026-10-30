@@ -22,7 +22,8 @@
     ],
     "mac": {
       "target": "dmg",
-      "category": "public.app-category.entertainment"
+      "category": "public.app-category.entertainment",
+      "identity": "-"
     }
   },
   "scripts": {

@@ -35,7 +35,7 @@ For an isolated development check, XPLAY_TEST_PROFILE can point to a temporary d
 
 ## Installation and acceptance
 
-A prepared DMG is a candidate until installation and gameplay are accepted. Preserve your working application and profile before testing an update. The candidate has no confirmed Apple Developer ID signature/notarization. A macOS warning is not automatically proof of a harmless issue: verify the source and SHA-256; do not run blanket quarantine-removal commands.
+A prepared DMG is a candidate until installation and gameplay are accepted. Preserve your working application and profile before testing an update. The candidate has a verified ad-hoc signature for local testing, not an Apple Developer ID signature or notarization. CI uses the explicit ad-hoc identity and loads no signing secrets. A macOS warning is not automatically proof of a harmless issue: verify the source and SHA-256; do not run blanket quarantine-removal commands.
 
 Automated checks cover navigation loop continuity, single confirmation per press, empty focus lists, profile validation, URL restrictions, physical-pad preservation and input reset. A native macOS launch and profile save were checked separately. Xbox sign-in, real controller input, gameplay, reconnect and a sustained session remain physical/service acceptance items.
 
