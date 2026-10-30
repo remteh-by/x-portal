@@ -356,3 +356,5 @@ header {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+button {font:inherit;color:inherit;cursor:pointer} button:focus-visible,input:focus-visible,select:focus-visible {outline:3px solid #a5f059;outline-offset:4px} .portal-card {text-align:left} .controls-open {padding:12px 24px;background:#1d3020;border:1px solid #579e55;border-radius:12px;margin:16px auto}.controls-modal {width:min(92vw,760px);max-height:85vh;overflow:auto;text-align:left}.controls-modal label {display:flex;gap:12px;align-items:center;margin:12px 0;justify-content:space-between}.controls-modal input:not([type=checkbox]),.controls-modal select {min-width:0;max-width:65%;padding:10px;background:#182218;color:white;border:1px solid #546354;border-radius:6px}.bindings-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0 16px}.controls-actions {display:flex;flex-wrap:wrap;gap:12px}.controls-actions button,.file-button {padding:10px;background:#243c24;border:1px solid #648e56;border-radius:8px}.file-button input {max-width:180px!important}.lang-selector,.support-btn {font:inherit;color:inherit}.controls-modal p {line-height:1.5}
