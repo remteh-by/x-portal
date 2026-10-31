@@ -1,4 +1,4 @@
-import {app,BrowserWindow,ipcMain,session} from 'electron';
+import {app,BrowserWindow,ipcMain,session,shell} from 'electron';
 import path from 'node:path';
 import fs from 'node:fs/promises';
 import {fileURLToPath,pathToFileURL} from 'node:url';
@@ -9,7 +9,8 @@ const indexFile=path.join(directory,'../dist/index.html');
 const indexURL=pathToFileURL(indexFile).href;
 const remoteWindows=new Set();
 let launcher,gameWindow,saveQueue=Promise.resolve(),profileWarning='',currentProfile=DEFAULT_PROFILE;
-if(process.env.XPLAY_TEST_PROFILE && !app.isPackaged) app.setPath('userData',path.resolve(process.env.XPLAY_TEST_PROFILE));
+// An explicit QA profile also isolates a packaged candidate from the owner's data.
+if(process.env.XPLAY_TEST_PROFILE) app.setPath('userData',path.resolve(process.env.XPLAY_TEST_PROFILE));
 const profileFile=()=>path.join(app.getPath('userData'),'controls-v1.json');
 async function readProfile() {
   try {
@@ -89,6 +90,7 @@ app.whenReady().then(()=>{
     saveQueue=operation;return operation;
   });
   ipcMain.handle('xplay:open-game',(event,mode)=>{requireLocal(event);return openGame(mode);});
+  ipcMain.handle('xplay:support',event=>{requireLocal(event);return shell.openExternal('https://ko-fi.com/pavelzayats');});
   session.defaultSession.setPermissionCheckHandler((contents,permission,_origin,details)=>{
     if(!remoteWindows.has(contents) || !gamePage(contents.getURL()) || !gamePage(details.requestingUrl||''))return false;
     if(permission==='fullscreen' || permission==='pointerLock')return true;
