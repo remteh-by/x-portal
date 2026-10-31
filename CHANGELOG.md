@@ -1,5 +1,9 @@
 # Changes
 
+## 1.2.0 preview
+
+Responsive launcher redesign; genuine transparent Xbox photograph with attribution; persistent language and complete launcher copy; focus-contained dialogs and clearer controller/profile state. Voluntary RemTeh Ko-fi support opens the system browser through a restricted local IPC action. Native packaged launch and sandbox/input fixtures passed; real Xbox gameplay remains deferred.
+
 ## 1.1.0 candidate
 
 - Keep gamepad polling alive during input throttling; edge-trigger confirm/back and clean up the loop.

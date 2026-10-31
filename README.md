@@ -1,8 +1,14 @@
-# X Play macOS 1.1.0 preview
+# X Play macOS 1.2.0 preview
 
-Independent Xbox Remote Play launcher for Apple Silicon macOS. The **1.1.0 preview is published** without physical-device acceptance. The ARM64 DMG is ad-hoc signed, not notarized. Public release 1.0.0 is retained as a historical version. See [actual releases](https://github.com/remteh-by/x-portal/releases) and the [site](https://remteh-by.github.io/x-portal/).
+Independent Xbox Remote Play launcher for Apple Silicon macOS. The **1.2.0 preview is published** without physical-device acceptance. The ARM64 DMG is ad-hoc signed, not notarized. Public release 1.0.0 is retained as a historical version. See [actual releases](https://github.com/remteh-by/x-portal/releases) and the [site](https://remteh-by.github.io/x-portal/).
 
-[Download 1.1.0 ARM64 DMG](https://github.com/remteh-by/x-portal/releases/download/v1.1.0/X-Play-1.1.0-arm64.dmg) · [Checksums and source](https://github.com/remteh-by/x-portal/releases/tag/v1.1.0)
+[Download 1.2.0 ARM64 DMG](https://github.com/remteh-by/x-portal/releases/download/v1.2.0/X-Play-1.2.0-arm64.dmg) · [Checksums and source](https://github.com/remteh-by/x-portal/releases/tag/v1.2.0)
+
+![Actual X Play 1.2.0 ARM64 package](docs/assets/app-1.2.0.png)
+
+## What changed in 1.2.0
+
+A responsive graphite/lime launcher, persistent language selection, clear controller/profile state and accessible dialogs. A genuine Xbox Series controller photograph is shown as a transparent cutout; see [image sources and licenses](PHOTO-CREDITS.md). The optional support dialog opens the existing RemTeh Ko-fi page in the system browser.
 
 ## Controls / управление
 
@@ -33,7 +39,7 @@ npm run electron:build
 
 Electron is pinned to 45.1.0; electron-builder to 26.18.0. App code is in dist, isolated preloads in build-preloads, packaged files in release. Do not distribute development node_modules or signing credentials. CI builds macOS candidates and keeps validation separate from publication.
 
-For an isolated development check, XPLAY_TEST_PROFILE can point to a temporary directory. Packaged apps ignore that variable. Production preferences live in Electron's userData directory; do not export account cookies or the complete browser profile for support.
+For an isolated development check, XPLAY_TEST_PROFILE can point to a temporary directory. The explicit variable also isolates a packaged QA launch; normal launches use the regular profile. Production preferences live in Electron's userData directory; do not export account cookies or the complete browser profile for support.
 
 ## Installation and acceptance
 
@@ -43,6 +49,6 @@ Automated checks cover navigation loop continuity, single confirmation per press
 
 ## License
 
-[MIT](LICENSE), unchanged. Independent project, not affiliated with Microsoft. [Support development](https://paypal.me/remtehby). Donations do not imply a separate software license purchase.
+[MIT](LICENSE), unchanged. Independent project, not affiliated with Microsoft. [Support development](https://ko-fi.com/pavelzayats). Donations do not imply a separate software license purchase.
 
 Additional QA: `npm run test:site` checks the static site at 360–3840px with JavaScript disabled; install Playwright Chromium first. `npm run test:native` launches the real Electron app using a temporary empty profile and an intercepted Xbox test page. It checks sandboxed preloads and SPA cleanup without signing into Microsoft or claiming gameplay.

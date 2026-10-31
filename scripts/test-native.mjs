@@ -4,10 +4,10 @@ const require=createRequire(import.meta.url),root=path.resolve(path.dirname(file
 const out=process.env.QA_DIR||path.join(root,'output/native');fs.mkdirSync(out,{recursive:true});
 const temporary=fs.mkdtempSync(path.join(os.tmpdir(),'xplay-qa-')),results=[];
 try{
- const app=await _electron.launch({executablePath:require('electron'),args:[root],env:{...process.env,XPLAY_TEST_PROFILE:temporary}});
+ const app=await _electron.launch({executablePath:process.env.XPLAY_TEST_EXECUTABLE||require('electron'),args:process.env.XPLAY_TEST_EXECUTABLE?[]:[root],env:{...process.env,XPLAY_TEST_PROFILE:temporary}});
  try{
-  const window=await app.firstWindow();await window.waitForLoadState('domcontentloaded');await window.getByRole('button',{name:'Controls settings'}).waitFor();await window.screenshot({path:out+'/xplay-launcher.png'});
-  const info=await window.evaluate(()=>window.xplay.info());assert.equal(info.version,'1.1.0');
+  const window=await app.firstWindow();await window.waitForLoadState('domcontentloaded');await window.evaluate(()=>localStorage.setItem('xplay-language-v1','en'));await window.reload();await window.getByRole('button',{name:'Controls settings'}).waitFor();await window.screenshot({path:out+'/xplay-launcher.png'});
+  const info=await window.evaluate(()=>window.xplay.info());assert.equal(info.version,'1.2.0');
   assert.equal(await window.evaluate(()=>typeof window.require),'undefined');
   await window.getByRole('button',{name:'Controls settings'}).click();await window.getByLabel('Name',{exact:true}).fill('QA profile');await window.getByLabel('Mode',{exact:true}).selectOption('keyboard');await window.getByRole('button',{name:'Save',exact:true}).click();await window.getByRole('status').filter({hasText:'Saved'}).waitFor();
   assert.equal((await window.evaluate(()=>window.xplay.profile())).name,'QA profile');await window.screenshot({path:out+'/xplay-controls.png'});
