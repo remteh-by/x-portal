@@ -6,7 +6,7 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
   globalIgnores(['dist','release','build-preloads']),
-  { files: ['electron/**/*.js','shared/**/*.js','scripts/**/*.mjs','tests/**/*.mjs','*.js'],
+  { files: ['electron/**/*.js','shared/**/*.js','scripts/**/*.{mjs,cjs}','tests/**/*.mjs','*.js'],
     extends:[js.configs.recommended], languageOptions:{globals:{...globals.node,...globals.browser},ecmaVersion:'latest'},
     rules:{'no-unused-vars':['error',{argsIgnorePattern:'^_'}]} },
   {

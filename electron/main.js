@@ -3,34 +3,59 @@ import path from 'node:path';
 import fs from 'node:fs/promises';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import {DEFAULT_PROFILE,validateProfile} from '../shared/profile.js';
+import {validateLibrary,libraryFromProfile,activeProfile,updateActiveProfile} from '../shared/profile-library.js';
 import {allowedNavigation,gamePage} from './navigation.js';
 const directory=path.dirname(fileURLToPath(import.meta.url));
 const indexFile=path.join(directory,'../dist/index.html');
 const indexURL=pathToFileURL(indexFile).href;
-const remoteWindows=new Set();
-let launcher,gameWindow,saveQueue=Promise.resolve(),profileWarning='',currentProfile=DEFAULT_PROFILE;
+const remoteWindows=new Set(),windowProfiles=new Map();
+let launcher,gameWindow,saveQueue=Promise.resolve(),profileWarning='';
 // An explicit QA profile also isolates a packaged candidate from the owner's data.
 if(process.env.XPLAY_TEST_PROFILE) app.setPath('userData',path.resolve(process.env.XPLAY_TEST_PROFILE));
+const primaryInstance=app.requestSingleInstanceLock();
+if(!primaryInstance)app.quit();
+app.on('second-instance',()=>{if(launcher&&!launcher.isDestroyed()){if(launcher.isMinimized())launcher.restore();launcher.focus();}});
 const profileFile=()=>path.join(app.getPath('userData'),'controls-v1.json');
-async function readProfile() {
+const libraryFile=()=>path.join(app.getPath('userData'),'controls-library-v1.json');
+let libraryCache=null,invalidLibrary=false,libraryRead=null;
+async function readLibrary(){if(libraryRead)return libraryRead;libraryRead=readLibraryFile();try{return await libraryRead;}finally{libraryRead=null;}}
+async function readLibraryFile(){
+ try{
+  const stats=await fs.stat(libraryFile());if(stats.size>1024*1024)throw new Error('Library is too large');
+  libraryCache=validateLibrary(JSON.parse(await fs.readFile(libraryFile(),'utf8')));invalidLibrary=false;profileWarning='';return libraryCache;
+ }catch(error){if(error.code!=='ENOENT'){invalidLibrary=true;profileWarning='Stored profile library could not be read. Its file is preserved.';}}
+ if(libraryCache)return libraryCache;
+ let profile=DEFAULT_PROFILE;
   try {
     const stats=await fs.stat(profileFile());
     if(stats.size>16384) throw new Error('Invalid profile size');
-    const profile=validateProfile(JSON.parse(await fs.readFile(profileFile(),'utf8')));
-    profileWarning='';currentProfile=profile;return profile;
+    profile=validateProfile(JSON.parse(await fs.readFile(profileFile(),'utf8')));
   } catch(error) {
-    profileWarning=error.code==='ENOENT'?'':'Stored profile could not be read. Standard controls are in use.';
-    currentProfile=validateProfile(DEFAULT_PROFILE);return currentProfile;
+    if(error.code!=='ENOENT')profileWarning='Stored profile could not be read. Standard controls are in use.';
   }
+  libraryCache=libraryFromProfile(profile);return libraryCache;
+}
+async function readProfile(){return activeProfile(await readLibrary());}
+function saveLibrary(input){
+ const library=validateLibrary(input);
+ const operation=saveQueue.catch(()=>{}).then(async()=>{
+  await fs.mkdir(app.getPath('userData'),{recursive:true});
+  if(invalidLibrary){const backup=libraryFile()+'.unreadable-'+Date.now();await fs.copyFile(libraryFile(),backup,1);await fs.chmod(backup,0o600);}
+  const temporary=libraryFile()+'.tmp-'+crypto.randomUUID();
+  try{await fs.writeFile(temporary,JSON.stringify(library,null,2),{mode:0o600,flag:'wx'});await fs.rename(temporary,libraryFile());}
+  finally{await fs.unlink(temporary).catch(error=>{if(error.code!=='ENOENT')throw error;});}
+  libraryCache=library;invalidLibrary=false;profileWarning='';return {saved:true,applies:'next-game-window'};
+ });
+ saveQueue=operation;return operation;
 }
 function localSender(event) {
   return launcher && !launcher.isDestroyed() && event.sender===launcher.webContents && event.senderFrame?.url===indexURL;
 }
 function requireLocal(event) {if(!localSender(event)) throw new Error('Untrusted caller');}
-function guardRemote(win) {
+function guardRemote(win,profile) {
   const contents=win.webContents;
-  remoteWindows.add(contents);
-  win.on('closed',()=>remoteWindows.delete(contents));
+  remoteWindows.add(contents);windowProfiles.set(contents,profile);
+  win.on('closed',()=>{remoteWindows.delete(contents);windowProfiles.delete(contents);});
   const check=(event,url)=>{if(!allowedNavigation(url)) event.preventDefault();};
   win.webContents.on('will-navigate',check);
   win.webContents.on('will-redirect',check);
@@ -38,17 +63,18 @@ function guardRemote(win) {
     action:'allow',overrideBrowserWindowOptions:{webPreferences:{sandbox:true,nodeIntegration:false,
       contextIsolation:true,preload:path.join(directory,'../build-preloads/game.cjs')}}
   }:{action:'deny'});
-  win.webContents.on('did-create-window',child=>guardRemote(child));
+  win.webContents.on('did-create-window',child=>guardRemote(child,profile));
   contents.on('did-navigate-in-page',(_event,_url,isMainFrame)=>{if(isMainFrame)contents.send('xplay:route');});
 }
 async function openGame(mode) {
   const targets={remote:'https://www.xbox.com/play/remote',cloud:'https://www.xbox.com/play'};
   if(!Object.hasOwn(targets,mode)) throw new Error('Unknown game mode');
   if(gameWindow && !gameWindow.isDestroyed()) {gameWindow.focus();return {opened:true,reused:true};}
+  const selected=await readProfile();
   gameWindow=new BrowserWindow({width:1280,height:720,minWidth:800,minHeight:500,backgroundColor:'#101410',
     webPreferences:{sandbox:true,nodeIntegration:false,contextIsolation:true,
       preload:path.join(directory,'../build-preloads/game.cjs')}});
-  guardRemote(gameWindow);
+  guardRemote(gameWindow,selected);
   gameWindow.on('closed',()=>{gameWindow=null;});
   const openedWindow=gameWindow;
   try {await openedWindow.loadURL(targets[mode]);}
@@ -69,11 +95,11 @@ function createWindow() {
   launcher.webContents.setWindowOpenHandler(()=>({action:'deny'}));
   launcher.loadFile(indexFile);
 }
-app.whenReady().then(()=>{
+if(primaryInstance)app.whenReady().then(()=>{
   ipcMain.handle('xplay:profile',event=>{
     if(!localSender(event) && !(remoteWindows.has(event.sender) && gamePage(event.senderFrame?.url||'')))
       throw new Error('Untrusted caller');
-    return readProfile();
+    return localSender(event)?readProfile():windowProfiles.get(event.sender);
   });
   ipcMain.handle('xplay:info',async event=>{
     requireLocal(event);await readProfile();
@@ -81,27 +107,23 @@ app.whenReady().then(()=>{
   });
   ipcMain.handle('xplay:save-profile',(event,input)=>{
     requireLocal(event);const profile=validateProfile(input);
-    const operation=saveQueue.catch(()=>{}).then(async()=>{
-      await fs.mkdir(app.getPath('userData'),{recursive:true});
-      await fs.writeFile(profileFile()+'.tmp',JSON.stringify(profile,null,2),{mode:0o600});
-      await fs.rename(profileFile()+'.tmp',profileFile());
-      profileWarning='';currentProfile=profile;return {saved:true,applies:'next-game-window'};
-    });
-    saveQueue=operation;return operation;
+    return readLibrary().then(library=>saveLibrary(updateActiveProfile(library,profile)));
   });
+  ipcMain.handle('xplay:library',event=>{requireLocal(event);return readLibrary();});
+  ipcMain.handle('xplay:save-library',(event,input)=>{requireLocal(event);return saveLibrary(input);});
   ipcMain.handle('xplay:open-game',(event,mode)=>{requireLocal(event);return openGame(mode);});
   ipcMain.handle('xplay:support',event=>{requireLocal(event);return shell.openExternal('https://ko-fi.com/pavelzayats');});
   session.defaultSession.setPermissionCheckHandler((contents,permission,_origin,details)=>{
     if(!remoteWindows.has(contents) || !gamePage(contents.getURL()) || !gamePage(details.requestingUrl||''))return false;
     if(permission==='fullscreen' || permission==='pointerLock')return true;
-    return permission==='media' && details.mediaType==='audio' && currentProfile.allowMicrophone;
+    return permission==='media' && details.mediaType==='audio' && windowProfiles.get(contents)?.allowMicrophone;
   });
   session.defaultSession.setPermissionRequestHandler(async(contents,permission,callback,details)=>{
     const trusted=remoteWindows.has(contents) && gamePage(contents.getURL()) && gamePage(details.requestingUrl||'');
     if(!trusted) {callback(false);return;}
     if(permission==='fullscreen' || permission==='pointerLock') {callback(true);return;}
     if(permission==='media' && details.mediaTypes?.length===1 && details.mediaTypes[0]==='audio') {
-      const profile=await readProfile();callback(profile.allowMicrophone);return;
+      callback(Boolean(windowProfiles.get(contents)?.allowMicrophone));return;
     }
     callback(false);
   });

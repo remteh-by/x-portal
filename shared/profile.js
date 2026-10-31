@@ -27,5 +27,5 @@ export function validateProfile(value) {
     if (typeof bindings[action] !== 'string' || !codes.test(bindings[action])) throw new Error('Invalid key code')
   if (new Set(Object.values(bindings)).size !== actions.length) throw new Error('Each action needs a different key')
   return {schema:1,name:value.name.trim(),mode:value.mode,sensitivity:value.sensitivity,
-    invertY:value.invertY,allowMicrophone:value.allowMicrophone,bindings:{...bindings}}
+    invertY:value.invertY,allowMicrophone:value.allowMicrophone,bindings:Object.fromEntries(actions.map(action=>[action,bindings[action]]))}
 }
