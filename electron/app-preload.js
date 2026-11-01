@@ -6,5 +6,5 @@ contextBridge.exposeInMainWorld('xplay',{
   library:()=>ipcRenderer.invoke('xplay:library'),
   saveLibrary:library=>ipcRenderer.invoke('xplay:save-library',library),
   openGame:mode=>ipcRenderer.invoke('xplay:open-game',mode),
-  support:()=>ipcRenderer.invoke('xplay:support'),
+  support:id=>ipcRenderer.invoke('xplay:support',id),
 })

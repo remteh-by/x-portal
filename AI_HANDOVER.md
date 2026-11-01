@@ -13,7 +13,7 @@ This document is for future AI coding assistants to understand the current state
 2. **Rebranding**: Renamed from "X Play TV" to "X Play macOS" across all components.
 3. **Landing Page**: Created a premium glassmorphism landing page at [remteh-by.github.io/x-portal/](https://remteh-by.github.io/x-portal/).
 4. **Release Automation**: Configured GitHub CLI for release management. Released v1.0.0 (Gamer Edition).
-5. **Monetization**: Configured GitHub Sponsors and PayPal.Me (https://paypal.me/remtehby). 
+5. **Optional support**: Six destinations and their verification status are listed at https://remteh-by.github.io/remteh-remote-play/#support . Patreon is not used; payment receipt is unverified.
 
 ## 🛠 Currently Released Version (v1.0.0)
 - **Tag**: `v1.0.0`

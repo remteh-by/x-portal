@@ -5,6 +5,7 @@ import {fileURLToPath,pathToFileURL} from 'node:url';
 import {DEFAULT_PROFILE,validateProfile} from '../shared/profile.js';
 import {validateLibrary,libraryFromProfile,activeProfile,updateActiveProfile} from '../shared/profile-library.js';
 import {allowedNavigation,gamePage} from './navigation.js';
+import {supportDestination} from '../shared/support.js';
 const directory=path.dirname(fileURLToPath(import.meta.url));
 const indexFile=path.join(directory,'../dist/index.html');
 const indexURL=pathToFileURL(indexFile).href;
@@ -112,7 +113,7 @@ if(primaryInstance)app.whenReady().then(()=>{
   ipcMain.handle('xplay:library',event=>{requireLocal(event);return readLibrary();});
   ipcMain.handle('xplay:save-library',(event,input)=>{requireLocal(event);return saveLibrary(input);});
   ipcMain.handle('xplay:open-game',(event,mode)=>{requireLocal(event);return openGame(mode);});
-  ipcMain.handle('xplay:support',event=>{requireLocal(event);return shell.openExternal('https://ko-fi.com/pavelzayats');});
+  ipcMain.handle('xplay:support',(event,id)=>{requireLocal(event);return shell.openExternal(supportDestination(id));});
   session.defaultSession.setPermissionCheckHandler((contents,permission,_origin,details)=>{
     if(!remoteWindows.has(contents) || !gamePage(contents.getURL()) || !gamePage(details.requestingUrl||''))return false;
     if(permission==='fullscreen' || permission==='pointerLock')return true;

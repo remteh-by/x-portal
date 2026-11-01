@@ -8,7 +8,7 @@ import assert from 'node:assert/strict';
 import {DEFAULT_PROFILE} from '../shared/profile.js';
 import {validateLibrary,activeProfile,libraryFromProfile} from '../shared/profile-library.js';
 const require=createRequire(import.meta.url),root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const out=process.env.QA_DIR||path.join(root,'output/native');fs.mkdirSync(out,{recursive:true});
+const out=path.resolve(process.env.QA_DIR||path.join(root,'output/native'));fs.mkdirSync(out,{recursive:true});
 const temporary=fs.mkdtempSync(path.join(os.tmpdir(),'xplay-qa-')),results=[];
 const legacy=path.join(temporary,'controls-v1.json'),libraryPath=path.join(temporary,'controls-library-v1.json');
 const legacyBytes=JSON.stringify({...DEFAULT_PROFILE,name:'Existing controls',mode:'keyboard'});fs.writeFileSync(legacy,legacyBytes);fs.writeFileSync(path.join(temporary,'owner-file'),'preserve');
@@ -54,6 +54,16 @@ try{
  assert.equal(await remote.evaluate(()=>Array.from(navigator.getGamepads()).some(pad=>pad?.id==='X Play keyboard and mouse')),true,'Open game keeps its chosen profile');await remote.close();
  remoteEvent=app.waitForEvent('window');await window.evaluate(()=>window.xplay.openGame('remote'));remote=await remoteEvent;await remote.getByRole('heading',{name:'Controlled Xbox origin fixture'}).waitFor();assert.equal(await remote.evaluate(()=>Boolean(window.__xplayControls)),false);assert.equal(await remote.evaluate(()=>Array.from(navigator.getGamepads()).some(pad=>pad?.id==='X Play keyboard and mouse')),false,'Next game adopts new selection');await remote.close();
  results.push({app:'xplay',scenarios:['real-sandbox-preload-on-controlled-origin','no-remote-node-or-IPC','per-game-profile-snapshot','SPA-route-cleanup'],passed:true});
+ const destinations=JSON.parse(fs.readFileSync(root+'/support/registry.json','utf8')).methods;
+ await app.evaluate(({shell})=>{globalThis.__supportCalls=[];globalThis.__originalOpenExternal=shell.openExternal;shell.openExternal=async url=>{globalThis.__supportCalls.push(url);};});
+ await window.locator('.app-footer button').click();
+ for(const method of destinations){await window.getByRole('dialog').getByRole('combobox').selectOption(method.id);await window.locator('.support-actions a').click();}
+ assert.deepEqual(await app.evaluate(()=>globalThis.__supportCalls),destinations.map(m=>m.url));
+ assert.equal(await window.evaluate(async()=>{try{await window.xplay.support('https://example.com');return false;}catch{return true;}}),true);
+ await window.locator('.remteh-support summary').click();await window.locator('.remteh-support img').evaluate(img=>img.decode());
+ await window.screenshot({path:out+'/xplay-support.png'});await window.keyboard.press('Escape');
+ await app.evaluate(({shell})=>{shell.openExternal=globalThis.__originalOpenExternal;delete globalThis.__originalOpenExternal;});
+ results.push({app:'xplay',scenarios:['six-real-IPC-destinations','reject-arbitrary-URL','local-QR'],passed:true});
  const persisted=await library();await close();await boot();assert.deepEqual(await library(),persisted);assert.equal(fs.readFileSync(legacy,'utf8'),legacyBytes);
  const good=fs.readFileSync(libraryPath),bad=Buffer.from('{invalid original');fs.writeFileSync(libraryPath,bad);await close();await boot();await window.getByRole('status').filter({hasText:'could not be read'}).waitFor();assert(fs.readFileSync(libraryPath).equals(bad));
  await controls();await window.getByLabel('Name',{exact:true}).fill('Recovered controls');await window.getByRole('button',{name:'Save',exact:true}).click();await saved();

@@ -3,13 +3,14 @@ import {startGamepadNavigation} from './gamepad-navigation.js'
 import {DEFAULT_PROFILE, validateProfile} from '../shared/profile.js'
 import {libraryFromProfile,validateLibrary,activeProfile,updateActiveProfile} from '../shared/profile-library.js'
 import ControlsPanel from './ControlsPanel.jsx'
+import SupportMethods from './components/SupportMethods.jsx'
 import {copy, languages, initialLanguage} from './copy.js'
 import './App.css'
 const photo = new URL('../public/devices/xbox.webp', import.meta.url).href
 export default function App() {
  const [lang,setLang] = useState(initialLanguage), [dialog,setDialog] = useState(null)
  const [connected,setConnected] = useState(false), [padName,setPadName] = useState('')
- const [info,setInfo] = useState({model:'Preview',version:'1.3.0'})
+ const [info,setInfo] = useState({model:'Preview',version:'1.3.1'})
  const [library,setLibrary] = useState(()=>libraryFromProfile(DEFAULT_PROFILE))
  const [libraryReady,setLibraryReady]=useState(!window.xplay)
  const profile=activeProfile(library)
@@ -64,7 +65,7 @@ export default function App() {
   {dialog&&dialog!=='controls'&&<div className="donation-modal" onClick={()=>setDialog(null)}><section className="modal-content" role="dialog" aria-modal="true" aria-labelledby="dialog-title" onClick={event=>event.stopPropagation()}><div className="dialog-header"><h2 id="dialog-title">{dialog==='language'?t.language:dialog==='credits'?t.photo:t.support}</h2><button onClick={()=>setDialog(null)} aria-label={t.close}>×</button></div>
   {dialog==='language'&&<div className="lang-grid">{languages.map(item=><button key={item.code} lang={item.code} aria-pressed={lang===item.code} onClick={()=>{setLang(item.code);setDialog(null)}}>{item.name}</button>)}</div>}
   {dialog==='credits'&&<><p>Xbox Series Wireless Controller · Carbon Black</p><p>uKER · CC BY-SA 4.0</p><p>{t.photoNote}</p><p className="source-address">commons.wikimedia.org/wiki/File:Xbox_Series_Controller_Carbon_Black.jpg</p><p>creativecommons.org/licenses/by-sa/4.0/</p></>}
-  {dialog==='support'&&<><p>{t.supportNote}</p><p className="source-address">ko-fi.com/pavelzayats</p><button className="launch-button" onClick={async()=>{try{if(!window.xplay?.support)throw new Error();await window.xplay.support()}catch{setNotice(t.installed);setDialog(null)}}}>{t.openSupport} ↗︎</button></>}
+  {dialog==='support'&&<SupportMethods language={lang} onOpen={window.xplay?.support ? id=>window.xplay.support(id) : undefined}/>}
   <button className="close-btn" onClick={()=>setDialog(null)}>{t.close}</button></section></div>}
  </div>
 }

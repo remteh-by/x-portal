@@ -1,20 +1,24 @@
-# X Play 1.3.0 preview
+# X Play 1.3.1 preview
 
-Independent Xbox Remote Play launcher for Apple Silicon macOS and Ubuntu ARM64. The **1.3.0 preview is published** with launcher/profile checks on Switch Ubuntu; Xbox gameplay acceptance remains pending. The ARM64 DMG is ad-hoc signed, not notarized. Public release 1.0.0 is retained as a historical version. See [actual releases](https://github.com/remteh-by/x-portal/releases) and the [site](https://remteh-by.github.io/x-portal/).
+Independent Xbox Remote Play launcher for Apple Silicon macOS and Ubuntu ARM64. The **1.3.1 preview is published** with desktop launcher/profile regression checks; previous Switch Ubuntu checks apply to 1.3.0; Xbox gameplay acceptance remains pending. The ARM64 DMG is ad-hoc signed, not notarized. Public release 1.0.0 is retained as a historical version. See [actual releases](https://github.com/remteh-by/x-portal/releases) and the [site](https://remteh-by.github.io/x-portal/).
 
-[Download 1.3.0 ARM64 DMG](https://github.com/remteh-by/x-portal/releases/download/v1.3.0/X-Play-1.3.0-arm64.dmg) · [Checksums and source](https://github.com/remteh-by/x-portal/releases/tag/v1.3.0)
+[Download 1.3.1 ARM64 DMG](https://github.com/remteh-by/x-portal/releases/download/v1.3.1/X-Play-1.3.1-arm64.dmg) · [Checksums and source](https://github.com/remteh-by/x-portal/releases/tag/v1.3.1)
 
-![Actual X Play 1.3.0 ARM64 package](docs/assets/app-1.3.0.png)
+![Actual X Play 1.3.1 ARM64 package](docs/assets/app-1.3.1.png)
 
-## What changed in 1.3.0
+## What changed in 1.3.1
+
+Six optional support methods, clear verification status and working browser/native links. The public app does not process payments.
+
+## Retained profile features
 
 A library of up to 50 named profiles: create, copy, select, edit, delete and import/export a complete library. Import requires review, including microphone behavior. Unsaved drafts survive Escape and closing until the user chooses. Existing controls-v1.json is preserved; unreadable library data is backed up before an explicit replacement. Each game window keeps its selected profile until it closes.
 
-[Ubuntu ARM64 ZIP](https://github.com/remteh-by/x-portal/releases/download/v1.3.0/X-Play-1.3.0-linux-arm64.zip) · [All packages and SHA-256](https://github.com/remteh-by/x-portal/releases/tag/v1.3.0)
+[Ubuntu ARM64 ZIP](https://github.com/remteh-by/x-portal/releases/download/v1.3.1/X-Play-1.3.1-linux-arm64.zip) · [All packages and SHA-256](https://github.com/remteh-by/x-portal/releases/tag/v1.3.1)
 
 ## Interface
 
-A responsive graphite/lime launcher, persistent language selection, clear controller/profile state and accessible dialogs. A genuine Xbox Series controller photograph is shown as a transparent cutout; see [image sources and licenses](PHOTO-CREDITS.md). The optional support dialog opens the existing RemTeh Ko-fi page in the system browser.
+A responsive graphite/lime launcher, persistent language selection, clear controller/profile state and accessible dialogs. A genuine Xbox Series controller photograph is shown as a transparent cutout; see [image sources and licenses](PHOTO-CREDITS.md). The optional support dialog offers six methods with readiness labels, copy and local QR codes. It works in the browser preview and native app. Patreon has been removed.
 
 ## Controls / управление
 
@@ -60,3 +64,9 @@ Automated checks cover navigation loop continuity, single confirmation per press
 Additional QA: `npm run test:site` checks the static site at 360–3840px with JavaScript disabled; install Playwright Chromium first. `npm run test:native` launches the real Electron app using a temporary empty profile and an intercepted Xbox test page. It checks sandboxed preloads and SPA cleanup without signing into Microsoft or claiming gameplay.
 
 Ubuntu updates use the [RemTeh user updater](https://github.com/remteh-by/Device-Lab/tree/main/ubuntu): hourly verified release checks, current/previous package retention and explicit rollback, preserving Electron userData. An active game is not restarted by a package switch.
+
+## Support options
+
+[Ko-fi, Afdian, Boosty, DonationAlerts, DonatePay and OKX Pay](SUPPORT.md). Optional support; each method shows its current setup/payment-verification status.
+
+![Current support dialog in the packaged macOS app](docs/assets/support-1.3.1.png)
