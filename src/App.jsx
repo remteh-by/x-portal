@@ -10,7 +10,7 @@ const photo = new URL('../public/devices/xbox.webp', import.meta.url).href
 export default function App() {
  const [lang,setLang] = useState(initialLanguage), [dialog,setDialog] = useState(null)
  const [connected,setConnected] = useState(false), [padName,setPadName] = useState('')
- const [info,setInfo] = useState({model:'Preview',version:'1.3.1'})
+ const [info,setInfo] = useState({model:'Preview',version:'1.3.2'})
  const [library,setLibrary] = useState(()=>libraryFromProfile(DEFAULT_PROFILE))
  const [libraryReady,setLibraryReady]=useState(!window.xplay)
  const profile=activeProfile(library)

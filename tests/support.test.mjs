@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import {supportDestination} from '../shared/support.js';
 const registry=JSON.parse(fs.readFileSync(new URL('../support/registry.json',import.meta.url),'utf8'));
 test('all bundled support choices resolve to the exact public recipient',()=>{
- assert.equal(registry.methods.length,6);
+ assert.equal(registry.methods.length,1);
  for(const method of registry.methods){
   assert.equal(supportDestination(method.id),method.url);
   for(const copy of Object.values(registry.texts)){
@@ -13,6 +13,6 @@ test('all bundled support choices resolve to the exact public recipient',()=>{
  }
 });
 test('privileged browser opener rejects URLs, prototype names and missing IDs',()=>{
- for(const id of [undefined,null,'','__proto__','constructor','https://ko-fi.com/pavelzayats','file:///etc/passwd','javascript:alert(1)',{},['kofi']])
+ for(const id of [undefined,null,'','afdian','boosty','donationalerts','donatepay','okx_pay','__proto__','constructor','https://ko-fi.com/pavelzayats','file:///etc/passwd','javascript:alert(1)',{},['kofi']])
   assert.throws(()=>supportDestination(id),/Unknown support method/);
 });
