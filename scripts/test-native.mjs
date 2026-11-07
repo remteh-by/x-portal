@@ -63,7 +63,7 @@ try{
  await window.locator('.remteh-support summary').click();await window.locator('.remteh-support img').evaluate(img=>img.decode());
  await window.screenshot({path:out+'/xplay-support.png'});await window.keyboard.press('Escape');
  await app.evaluate(({shell})=>{shell.openExternal=globalThis.__originalOpenExternal;delete globalThis.__originalOpenExternal;});
- results.push({app:'xplay',scenarios:['six-real-IPC-destinations','reject-arbitrary-URL','local-QR'],passed:true});
+ results.push({app:'xplay',scenarios:['configured-Ko-fi-IPC-destination','reject-arbitrary-URL','local-QR'],passed:true});
  const persisted=await library();await close();await boot();assert.deepEqual(await library(),persisted);assert.equal(fs.readFileSync(legacy,'utf8'),legacyBytes);
  const good=fs.readFileSync(libraryPath),bad=Buffer.from('{invalid original');fs.writeFileSync(libraryPath,bad);await close();await boot();await window.getByRole('status').filter({hasText:'could not be read'}).waitFor();assert(fs.readFileSync(libraryPath).equals(bad));
  await controls();await window.getByLabel('Name',{exact:true}).fill('Recovered controls');await window.getByRole('button',{name:'Save',exact:true}).click();await saved();
