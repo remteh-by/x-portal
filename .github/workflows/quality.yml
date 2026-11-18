@@ -22,7 +22,7 @@ jobs:
       - run: npm test && npm run lint && npm run build
       - run: npx playwright install --with-deps chromium
       - run: npm run test:site
-      - run: npm audit --omit=dev --audit-level=high
+      - run: npm audit --audit-level=high
   mac-package:
     needs: checks
     runs-on: macos-15

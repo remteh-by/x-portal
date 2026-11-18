@@ -40,6 +40,26 @@ test('navigation survives throttle, empty UI and remount without duplicate confi
   assert.deepEqual(connected,[true]);stop();assert.equal(frames.count,0)
   stop=startGamepadNavigation(win,doc,()=>{},()=>{});assert.equal(frames.count,1);stop();assert.equal(frames.count,0)
 })
+test('held confirm/back do not activate on mount, focus return or controller replacement',()=>{
+  const frames=scheduler();let focus=true,clicks=0,backs=0
+  let pad={id:'first',index:0,connected:true,axes:[0,0],buttons:Array.from({length:17},()=>({pressed:false}))}
+  pad.buttons[0].pressed=pad.buttons[1].pressed=true
+  const button={getClientRects:()=>[1],click(){clicks++},focus(){}}
+  const doc={hidden:false,hasFocus:()=>focus,querySelector:()=>null,querySelectorAll:()=>[button],activeElement:button}
+  const stop=startGamepadNavigation({...frames,navigator:{getGamepads:()=>[pad]}},doc,()=>{},()=>backs++)
+  frames.step(0);assert.equal(clicks,0);assert.equal(backs,0)
+  pad.buttons[0].pressed=pad.buttons[1].pressed=false;frames.step(16)
+  pad.buttons[0].pressed=pad.buttons[1].pressed=true;frames.step(32)
+  assert.equal(clicks,1);assert.equal(backs,1)
+  focus=false;frames.step(48);focus=true;frames.step(64)
+  assert.equal(clicks,1);assert.equal(backs,1)
+  pad.buttons[0].pressed=pad.buttons[1].pressed=false;frames.step(80)
+  pad={...pad,id:'second',buttons:pad.buttons.map(()=>({pressed:true}))};frames.step(96)
+  assert.equal(clicks,1);assert.equal(backs,1)
+  pad.buttons[0].pressed=pad.buttons[1].pressed=false;frames.step(112)
+  pad.buttons[0].pressed=true;frames.step(128);assert.equal(clicks,2)
+  stop()
+})
 function target(extra={}) {
   const listeners=new Map()
   return {addEventListener(type,fn){if(!listeners.has(type))listeners.set(type,new Set());listeners.get(type).add(fn)},

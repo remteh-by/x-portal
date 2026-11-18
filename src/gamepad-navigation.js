@@ -1,6 +1,6 @@
 export function startGamepadNavigation(win, doc, onConnected, onBack) {
   let frame, disposed = false, lastAction = -Infinity, lastDirection = 0
-  let confirmHeld = false, backHeld = false, connected = null
+  let confirmHeld = true, backHeld = true, connected = null, padIdentity = null
   const pressed = (pad, index) => Boolean(pad.buttons?.[index]?.pressed)
   function loop(now) {
     if (disposed) return
@@ -8,8 +8,13 @@ export function startGamepadNavigation(win, doc, onConnected, onBack) {
     const pad = Array.from(win.navigator.getGamepads?.() || []).find(p => p?.connected !== false && p)
     const present = Boolean(pad)
     if (present !== connected) { connected = present; onConnected(present) }
+    const identity = pad ? `${pad.index}:${pad.id}` : null
+    if (identity !== padIdentity) {
+      padIdentity = identity; confirmHeld = backHeld = true; lastDirection = 0
+    }
     if (!pad || doc.hidden || !doc.hasFocus()) {
-      confirmHeld = backHeld = false; lastDirection = 0
+      // Re-arm only after release in the foreground: held buttons are not new clicks.
+      confirmHeld = backHeld = true; lastDirection = 0
       return
     }
     const root = doc.querySelector('[role="dialog"]') || doc
