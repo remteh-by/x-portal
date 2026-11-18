@@ -1,10 +1,14 @@
-# X Play 1.3.2 preview
+# X Play 1.3.3 preview
 
-Independent Xbox Remote Play launcher for Apple Silicon macOS and Ubuntu ARM64. The **1.3.2 preview is published** with desktop launcher/profile regression checks; previous Switch Ubuntu checks apply to 1.3.0; Xbox gameplay acceptance remains pending. The ARM64 DMG is ad-hoc signed, not notarized. Public release 1.0.0 is retained as a historical version. See [actual releases](https://github.com/remteh-by/x-portal/releases) and the [site](https://remteh-by.github.io/x-portal/).
+Independent Xbox Remote Play launcher for Apple Silicon macOS and Ubuntu ARM64. The **1.3.3 preview** ships with desktop launcher/profile regression checks; previous Switch Ubuntu checks apply to 1.3.0; Xbox gameplay acceptance remains pending. The ARM64 DMG is ad-hoc signed, not notarized. Public release 1.0.0 is retained as a historical version. See [actual releases](https://github.com/remteh-by/x-portal/releases) and the [site](https://remteh-by.github.io/x-portal/).
 
-[Download 1.3.2 ARM64 DMG](https://github.com/remteh-by/x-portal/releases/download/v1.3.2/X-Play-1.3.2-arm64.dmg) · [Checksums and source](https://github.com/remteh-by/x-portal/releases/tag/v1.3.2)
+[Download 1.3.3 ARM64 DMG](https://github.com/remteh-by/x-portal/releases/download/v1.3.3/X-Play-1.3.3-arm64.dmg) · [Checksums and source](https://github.com/remteh-by/x-portal/releases/tag/v1.3.3)
 
-![Actual X Play 1.3.2 ARM64 package](docs/assets/app-1.3.2.png)
+![Actual X Play 1.3.3 ARM64 package](docs/assets/app-1.3.3.png)
+
+## What changed in 1.3.3
+
+A confirm or back button held while connecting a controller or switching back to X Play now waits for release. Returning to the window no longer opens or dismisses a dialog by accident. Desktop dependencies have also been updated.
 
 ## What changed in 1.3.2
 
@@ -14,7 +18,7 @@ Only the configured Ko-fi page is offered, with working browser/native links. Pe
 
 A library of up to 50 named profiles: create, copy, select, edit, delete and import/export a complete library. Import requires review, including microphone behavior. Unsaved drafts survive Escape and closing until the user chooses. Existing controls-v1.json is preserved; unreadable library data is backed up before an explicit replacement. Each game window keeps its selected profile until it closes.
 
-[Ubuntu ARM64 ZIP](https://github.com/remteh-by/x-portal/releases/download/v1.3.2/X-Play-1.3.2-linux-arm64.zip) · [All packages and SHA-256](https://github.com/remteh-by/x-portal/releases/tag/v1.3.2)
+[Ubuntu ARM64 ZIP](https://github.com/remteh-by/x-portal/releases/download/v1.3.3/X-Play-1.3.3-linux-arm64.zip) · [All packages and SHA-256](https://github.com/remteh-by/x-portal/releases/tag/v1.3.3)
 
 ## Interface
 
@@ -69,7 +73,7 @@ Ubuntu updates use the [RemTeh user updater](https://github.com/remteh-by/Device
 
 [Support RemTeh on Ko-fi](SUPPORT.md). Optional support through the configured page; pending and unverified providers are hidden.
 
-![Current support dialog in the packaged macOS app](docs/assets/support-1.3.2.png)
+![Current support dialog in the packaged macOS app](docs/assets/support-1.3.3.png)
 
 ## Support options · 2026-11-07
 

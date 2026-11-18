@@ -1,5 +1,9 @@
 # Changes
 
+## 1.3.3
+
+A confirm or back button held while connecting a controller or switching back to X Play now waits for release. Returning to the window no longer opens or dismisses a dialog by accident. Desktop dependencies have also been updated.
+
 ## 1.2.0 preview
 
 Responsive launcher redesign; genuine transparent Xbox photograph with attribution; persistent language and complete launcher copy; focus-contained dialogs and clearer controller/profile state. Voluntary RemTeh Ko-fi support opens the system browser through a restricted local IPC action. Native packaged launch and sandbox/input fixtures passed; real Xbox gameplay remains deferred.
